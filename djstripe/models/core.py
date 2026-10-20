@@ -90,7 +90,8 @@ class BalanceTransaction(StripeModel):
         ),
     )
     status = StripeEnumField(enum=enums.BalanceTransactionStatus)
-    type = StripeEnumField(enum=enums.BalanceTransactionType)
+    # Stripe can add types that are longer than the values in our local enum.
+    type = StripeEnumField(enum=enums.BalanceTransactionType, max_length=255)
     included_in_payout = StripeForeignKey(
         "Payout",
         on_delete=models.SET_NULL,
